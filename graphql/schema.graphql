@@ -14,7 +14,7 @@ type Query {
         id: ID @eq
     ): Post @find
 
-    posts: [Post!]! @paginate(defaultCount: 10) @orderBy(column: "created_at", direction: DESC)
+    posts: [Post!]! @guard @paginate(defaultCount: 10) @orderBy(column: "created_at", direction: DESC)
 
     postsResolver: [Post!]! @field(resolver: "App\\GraphQL\\Queries\\PostsResolver")
     postResolver(id: ID!): Post! @field(resolver: "App\\GraphQL\\Queries\\PostResolver")
@@ -42,6 +42,16 @@ type Mutation {
     deletePost(
         id: ID! @whereKey
     ): Post! @delete
+
+    loginTest(
+        email: String!
+        password: String!
+        deviceName: String!
+    ): AccessTokenTest! @field(resolver: "App\\GraphQL\\Mutations\\LoginTestResolver")
+}
+
+type AccessTokenTest {
+    token: String!
 }
 
 type User {
